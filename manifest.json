@@ -1,0 +1,81 @@
+{
+  "blanc": [
+    "CoradiaLiner_firstToSecond_carmillon_6C.png",
+    "CoradiaLiner_secondToFirst_carmillon_6C.png",
+    "ICE3—BR407_firstToSecond_db_8C.png",
+    "ICE3—BR407_secondToFirst_db_8C.png",
+    "RABe522FlirtLEX_redLex_4C.png",
+    "Regiolis_redNouvelleAquitaine_4C.png",
+    "TGVAtlantique—Lacroix_firstToSecond_carmillon_10C.png",
+    "TGVAtlantique—Lacroix_secondToFirst_carmillon_10C.png"
+  ],
+  "bleu": [
+    "2NNGR_blueAURA_3C.png",
+    "2NNGR_blueZouSud_4C.png",
+    "2NNG_blueAURA_3C.png",
+    "2NNG_orangePACA_4C.png",
+    "AGCR_blueAURA_3C.png",
+    "AGCR_blueHDF_3C.png",
+    "AGCR_blueHDF_4C.png",
+    "AGCR_bluePACA_3C.png",
+    "AGCR_bluePACA_4C.png",
+    "AGCR_blueZouSud_3C.png",
+    "AGCR_blueZouSud_4C.png",
+    "AGC_blueAURA_3C.png",
+    "AGC_blueAURA_4C.png",
+    "AGC_blueZouSud_3C.png",
+    "AGC_blueZouSud_4C.png",
+    "ATER_blueAURA_1C.png",
+    "Regio2N_blueAURA_6C.png",
+    "Regio2N_blueZouSud_8C.png",
+    "Regiolis_blueAURA_4C.png",
+    "Regiolis_blueZouSud_4C.png",
+    "Regiolis—CoradiaLiner_greenAndBlueHDF_6C.png",
+    "TGVDASYE—OUIGOTango_firstToSecond_ouigo_8C.png",
+    "TGVDASYE—OUIGOTango_secondToFirst_ouigo_8C.png",
+    "TGVDASYE—OUIGO_firstToSecond_ouigo_8C.png",
+    "TGVDASYE—OUIGO_secondToFirst_ouigo_8C.png"
+  ],
+  "jaune": [
+    "AGC_yellowChampagne_3C.png",
+    "AGC_yellowChampagne_4C.png",
+    "ATER_yellowChampagne_1C.png"
+  ],
+  "noir": [
+    "AGCR_blackBretagne_3C.png",
+    "Regio2N_blackBretagne_6C.png",
+    "Regio2N_blackBretagne_8C.png"
+  ],
+  "rouge": [
+    "2NNG_redMonaco_4C.png",
+    "AGCR_redOccitanieLio_3C.png",
+    "AGCR_redOccitanieLio_4C.png",
+    "AGC_redLanguedoc_3C.png",
+    "AGC_redLanguedoc_4C.png",
+    "AGC_redNouvelleAquitaine_3C.png",
+    "AGC_redNouvelleAquitaine_4C.png",
+    "AGC_redOccitanieLio_3C.png",
+    "AGC_redOccitanieLio_4C.png",
+    "ATER_redLanguedoc_1C.png",
+    "ATER_redNouvelleAquitaine_1C.png",
+    "Regio2N_redNouvelleAquitaine_6C.png",
+    "Regio2N_redOccitanieLio_6C.png",
+    "Regiolis_blueOccitanieLio_4C.png",
+    "Regiolis_redLex_4C.png",
+    "Regiolis_redOccitanieLio_4C.png",
+    "Regiolis—CoradiaLiner_blueRedOccitanieLio_4C.png",
+    "TGVEuroDuplex3UA_firstToSecond_lyria_8C.png",
+    "TGVEuroDuplex3UA_secondToFirst_lyria_8C.png"
+  ],
+  "vert": [
+    "2NNGR_blueHDF_3C.png",
+    "2NNG_blueHDF_3C.png",
+    "2NNG_greenHDF_4C.png",
+    "AGC_blueHDF_3C.png",
+    "ATER_blueGreenMobigo_1C.png",
+    "Regiolis_greenHDF_6C.png",
+    "Regiolis—CoradiaLiner_blueGreenMobigo_6C.png",
+    "Regiolis—CoradiaLiner_firstToSecond_blueGreenMobigo_6C.png",
+    "Regiolis—CoradiaLiner_secondToFirst_blueGreenMobigo_6C.png"
+  ]
+}
