@@ -4,10 +4,10 @@ import itertools
 import urllib.request
 import urllib
 
-materiel = [ 'TGVDASYE', 'TGVPSE', 'TGVA', 'TGVR', 'TGVDuplex', 'TGVRDuplex', 'TGVPOS', 'TGV2N2', 'TGVM', 'TGVLyria', 'eurostar_e320', 'TGVReseau', 'ICE3', 'TGVReseauItalie', 'TGVNeoDuplex', 'TGVEuroDuplex3UA', 'Regiolis', 'TGVAtlantique', 'TGVEuroDuplex', 'CoradiaLiner' ]
-commercial = [ 'Oceane', 'Atlantique', 'Cassiopee', 'Mediterranee', 'Reseau', 'Lyria', 'Sud-Est', 'Lacroix', 'Tallon', 'CoradiaLiner', 'OUIGO', 'OUIGOTango', 'BR407', 'INTERCITES' ]
+materiel = [ 'TGVDASYE', 'TGVPSE', 'TGVA', 'TGVR', 'TGVDuplex', 'TGVRDuplex', 'TGVPOS', 'TGV2N2', 'TGVM', 'TGVLyria', 'eurostar_e320', 'TGVReseau', 'ICE3', 'TGVReseauItalie', 'TGVNeoDuplex', 'TGVEuroDuplex3UA', 'Regiolis', 'TGVAtlantique', 'TGVEuroDuplex', 'CoradiaLiner', 'Regio2N' ]
+commercial = [ 'Oceane', 'Atlantique', 'Cassiopee', 'OmneoPremium', 'Mediterranee', 'Reseau', 'Lyria', 'Sud-Est', 'Lacroix', 'Tallon', 'CoradiaLiner', 'OUIGO', 'OUIGOTango', 'BR407', 'INTERCITES' ]
 orientation = [ 'firstToSecond', 'secondToFirst' ]
-livree = [ 'carmillon', 'atlantique', 'inoui', 'ouigo', 'lyria', 'lacroix', 'blueGreenMobigo', 'db' ]
+livree = [ 'carmillon', 'atlantique', 'inoui', 'ouigo', 'lyria', 'lacroix', 'blueGreenMobigo', 'db', 'yellowRemi' ]
 voitures = [ '8C', '7C', '10C', '8R', '6C' ]
 
 
@@ -85,9 +85,13 @@ for mat in materiel:
 # https://www.sncf-connect.com/staticsTrainComposition/AGC_neutralFluo_3C.png
 # https://www.sncf-connect.com/staticsTrainComposition/Regiolis_firstToSecond_blueGreenMobigo_4C.png
 
+# https://www.sncf-connect.com/staticsTrainComposition/Regiolis_normandieFortVert_6C.png
+# https://www.sncf-connect.com/staticsTrainComposition/Regio2N%E2%80%94OmneoPremium_firstToSecond_yellowRemi_8C.png
+
+
 # TER
 first = [ '2NNG', '2NNGR', 'AGC', 'AGCR', 'Regiolis', 'Regio2N', 'BB22200', 'BB7200', f'Regiolis%E2%80%94CoradiaLiner', 'BB26000', 'ATER', 'Z100TrainJaune', 'RABe522FlirtLEX' ]
-second = [ 'blueAURA', 'redOccitanieLio', 'bluePACA', 'redLanguedoc', 'blueZouSud', 'blueRedOccitanieLio', 'neutralFluo', 'yellowChampagne', 'orangePACA', 'blueGreenMobigo', 'redLex', 'blackBretagne', 'redMonaco', 'beton', 'blueOccitanieLio', 'redNouvelleAquitaine', 'greenAndBlueHDF', 'yellowNPDC', 'greenHDF', 'blueHDF', 'blueAlsace', 'fluoGrandEst', 'blueFrancheComte', 'blueAURA' ]
+second = [ 'blueAURA', 'redOccitanieLio', 'bluePACA', 'redLanguedoc', 'blueZouSud', 'blueRedOccitanieLio', 'neutralFluo', 'yellowChampagne', 'orangePACA', 'blueGreenMobigo', 'redLex', 'blackBretagne', 'redMonaco', 'beton', 'blueOccitanieLio', 'redNouvelleAquitaine', 'greenAndBlueHDF', 'yellowNPDC', 'greenHDF', 'blueHDF', 'blueAlsace', 'fluoGrandEst', 'blueFrancheComte', 'blueAURA', 'normandieFortVert' ]
 third = [ '3C', '4C', '6C', '8C', '0C', '1C' ]
 
 for f in first:
