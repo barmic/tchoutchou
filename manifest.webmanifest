@@ -1,0 +1,17 @@
+{
+  "name": "Tchoutchou",
+  "short_name": "Tchoutchou",
+  "description": "Galerie de trains",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#1a1a24",
+  "background_color": "#ffffff",
+  "icons": [
+    { "src": "train192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "train512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "train512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

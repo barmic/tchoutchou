@@ -4,6 +4,8 @@ run = '''
 '''
 sources = [
     'gen-manifest.sh',
+    'index.html',
+    'sw.template.js',
     'vert/*',
     'bleu/*',
     'noir/*',
@@ -11,7 +13,7 @@ sources = [
     'blanc/*',
     'jaune/*'
 ]
-outputs = ["manifest.json"]
+outputs = ["manifest.json", "sw.js"]
 
 [tasks.serve]
 run = "python3 -m http.server 8000"
