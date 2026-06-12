@@ -22,7 +22,11 @@ self.addEventListener('install', (event) => {
     for (const [color, files] of Object.entries(manifest)) {
       for (const f of files) imgUrls.push(`${color}/${encodeURI(f)}`);
     }
-    await cache.addAll(imgUrls);
+    // Précache tolérant : une image qui échoue (404, coupure cellulaire) ne doit
+    // pas rejeter tout l'install, sinon le SW ne s'active jamais. Les trous sont
+    // rattrapés par le backfill du handler fetch à la prochaine consultation en ligne.
+    await Promise.allSettled(imgUrls.map((u) => cache.add(u)));
+    await self.skipWaiting();
   })());
 });
 
@@ -34,6 +38,7 @@ self.addEventListener('activate', (event) => {
         .filter((k) => k.startsWith('tchoutchou-') && k !== CACHE_NAME)
         .map((k) => caches.delete(k))
     );
+    await self.clients.claim();
   })());
 });
 
@@ -47,7 +52,14 @@ self.addEventListener('fetch', (event) => {
     const cached = await caches.match(req);
     if (cached) return cached;
     try {
-      return await fetch(req);
+      const res = await fetch(req);
+      // Backfill : remettre en cache ce qui n'avait pas été précaché (images
+      // manquées par le précache tolérant) pour que ce soit dispo offline ensuite.
+      if (res && res.ok) {
+        const cache = await caches.open(CACHE_NAME);
+        cache.put(req, res.clone());
+      }
+      return res;
     } catch (err) {
       if (req.mode === 'navigate') {
         const fallback = await caches.match('index.html');

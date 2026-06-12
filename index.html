@@ -273,13 +273,25 @@ let currentTrain = null;
 let scroller = null;
 
 async function loadManifest() {
+  // Pas de {cache:'no-cache'} : sous stratégie cache-first le SW sert de toute
+  // façon le cache ; no-cache ne fait que contourner les caches et casse l'offline
+  // quand le SW ne contrôle pas la page (cas iPhone standalone). La fraîcheur vient
+  // du bump de CACHE_VERSION au build.
   try {
-    const res = await fetch('manifest.json', { cache: 'no-cache' });
+    const res = await fetch('manifest.json');
     if (!res.ok) throw new Error('HTTP ' + res.status);
     manifest = await res.json();
   } catch (e) {
-    console.error('manifest.json introuvable', e);
-    manifest = {};
+    // Filet offline : lire directement le Cache Storage, accessible même si le SW
+    // ne contrôle pas la page.
+    try {
+      const cached = await caches.match('manifest.json');
+      if (!cached) throw e;
+      manifest = await cached.json();
+    } catch (e2) {
+      console.error('manifest.json introuvable', e2);
+      manifest = {};
+    }
   }
   unionList = [];
   for (const [color, files] of Object.entries(manifest)) {
@@ -563,6 +575,12 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(err => console.error('SW registration failed', err));
   });
+}
+
+// Best-effort : demander un stockage persistant pour limiter l'éviction iOS (~7j).
+// iOS Safari l'ignore largement, donc sans garantie ; le cache se ré-amorce à la visite.
+if (navigator.storage && navigator.storage.persist) {
+  navigator.storage.persist().catch(() => {});
 }
 </script>
 </body>
