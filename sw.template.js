@@ -12,15 +12,33 @@ const SHELL_ASSETS = [
   'train512.png',
 ];
 
+// Precache only the format the page will request: AVIF when the browser can
+// decode it, PNG otherwise. Detection decodes a real AVIF file.
+async function supportsAvif() {
+  try {
+    const res = await fetch('train192.avif');
+    if (!res.ok) return false;
+    const bitmap = await createImageBitmap(await res.blob());
+    bitmap.close();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
     await cache.addAll(SHELL_ASSETS);
     const res = await fetch('manifest.json', { cache: 'no-cache' });
     const manifest = await res.json();
+    const avif = await supportsAvif();
     const imgUrls = [];
     for (const [color, files] of Object.entries(manifest)) {
-      for (const f of files) imgUrls.push(`${color}/${encodeURI(f)}`);
+      for (const f of files) {
+        const name = avif ? f.replace(/\.png$/i, '.avif') : f;
+        imgUrls.push(`${color}/${encodeURI(name)}`);
+      }
     }
     // Précache tolérant : une image qui échoue (404, coupure cellulaire) ne doit
     // pas rejeter tout l'install, sinon le SW ne s'active jamais. Les trous sont
@@ -42,6 +60,16 @@ self.addEventListener('activate', (event) => {
   })());
 });
 
+function isAvif(url) {
+  return url.pathname.toLowerCase().endsWith('.avif');
+}
+
+// An AVIF missing offline (e.g. PNG precached after a failed detection) is
+// served from its cached PNG sibling.
+function pngFallback(url) {
+  return caches.match(url.pathname.replace(/\.avif$/i, '.png'));
+}
+
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
@@ -59,8 +87,16 @@ self.addEventListener('fetch', (event) => {
         const cache = await caches.open(CACHE_NAME);
         cache.put(req, res.clone());
       }
+      if (res && !res.ok && isAvif(url)) {
+        const png = await pngFallback(url);
+        if (png) return png;
+      }
       return res;
     } catch (err) {
+      if (isAvif(url)) {
+        const png = await pngFallback(url);
+        if (png) return png;
+      }
       if (req.mode === 'navigate') {
         const fallback = await caches.match('index.html');
         if (fallback) return fallback;

@@ -160,6 +160,7 @@
     display: inline-block;
     line-height: 0;
   }
+  .train-scroll picture,
   .train-scroll img {
     display: block;
     max-height: none;
@@ -227,7 +228,10 @@
     <div class="fade fade-left" id="fade-left"></div>
     <div class="fade fade-right" id="fade-right"></div>
     <div class="train-scroll" id="scroll">
-      <img id="train-img" alt="">
+      <picture>
+        <source id="train-avif" type="image/avif">
+        <img id="train-img" alt="">
+      </picture>
     </div>
   </div>
   <div class="change-bar">
@@ -333,6 +337,7 @@ class RubberScroller {
     this.fadeLeft = fadeLeft;
     this.fadeRight = fadeRight;
     this.img = scroll.querySelector('img');
+    this.avif = scroll.querySelector('source[type="image/avif"]');
     this.pos = 0;
     this.vel = 0;
     this.minPos = 0;
@@ -450,6 +455,7 @@ class RubberScroller {
     this.fadeRight.style.opacity = rightOpacity;
   }
 
+  // src is the PNG path; the browser picks the sibling AVIF when it supports it.
   setImage(src) {
     return new Promise(resolve => {
       this.pos = 0;
@@ -461,7 +467,16 @@ class RubberScroller {
         this.render();
         resolve();
       };
-      this.img.onerror = () => resolve();
+      this.img.onerror = () => {
+        // AVIF missing or undecodable: fall back to the PNG.
+        if (this.avif.hasAttribute('srcset')) {
+          this.avif.removeAttribute('srcset');
+          this.img.src = src;
+          return;
+        }
+        resolve();
+      };
+      this.avif.srcset = encodeURI(src.replace(/\.png$/i, '.avif'));
       this.img.src = src;
     });
   }
@@ -501,6 +516,7 @@ async function enterDisplay(color) {
   changeBtn.disabled = count <= 1;
 
   if (count === 0) {
+    document.getElementById('train-avif').removeAttribute('srcset');
     document.getElementById('train-img').removeAttribute('src');
     currentTrain = null;
     return;
