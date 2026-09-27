@@ -167,9 +167,14 @@
   .train-scroll img {
     display: block;
     max-height: none;
-    height: auto;
     pointer-events: none;
     -webkit-user-drag: none;
+  }
+  .train-scroll img {
+    /* Source images have heterogeneous heights: show every train at the same
+       height, width follows the aspect ratio. */
+    height: 150px;
+    width: auto;
   }
   .fade {
     position: absolute;
