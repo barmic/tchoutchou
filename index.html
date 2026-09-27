@@ -147,8 +147,11 @@
   }
   .display-count .num { color: var(--text); }
 
+  /* The train sits centered between header and page bottom; the buttons sit
+     centered in the space left below the train. */
+  .display-spacer { flex: 1; }
   .train-viewport {
-    flex: 1;
+    flex-shrink: 0;
     overflow: hidden;
     position: relative;
     display: flex;
@@ -188,10 +191,10 @@
   }
 
   .change-bar {
-    flex-shrink: 0;
+    flex: 1;
     padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
-    background: var(--bg-2);
     display: flex;
+    align-items: center;
     gap: 12px;
   }
   .change-btn,
@@ -233,6 +236,7 @@
     <button class="back-btn" id="back-btn" aria-label="Retour">← Tchoutchou</button>
     <div class="display-count"><span class="num" id="count-num">0</span> <span id="count-label">trains</span></div>
   </header>
+  <div class="display-spacer"></div>
   <div class="train-viewport" id="viewport">
     <div class="fade fade-left" id="fade-left"></div>
     <div class="fade fade-right" id="fade-right"></div>
