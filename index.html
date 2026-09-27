@@ -191,9 +191,12 @@
     flex-shrink: 0;
     padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
     background: var(--bg-2);
+    display: flex;
+    gap: 12px;
   }
-  .change-btn {
-    width: 100%;
+  .change-btn,
+  .home-btn {
+    flex: 1;
     padding: 16px;
     font: inherit;
     font-size: 1.15rem;
@@ -207,6 +210,12 @@
   }
   .change-btn:not(:disabled):active { transform: scale(0.98); }
   .change-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .home-btn {
+    background: transparent;
+    color: var(--text);
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,0.35);
+  }
+  .home-btn:active { transform: scale(0.98); }
 
   [hidden] { display: none !important; }
 </style>
@@ -235,6 +244,7 @@
     </div>
   </div>
   <div class="change-bar">
+    <button class="change-btn home-btn" id="home-btn">← Accueil</button>
     <button class="change-btn" id="change-btn">Changer de train</button>
   </div>
 </section>
@@ -563,6 +573,7 @@ function route() {
 
 /* ---------- INIT ---------- */
 document.getElementById('back-btn').addEventListener('click', () => { history.back(); });
+document.getElementById('home-btn').addEventListener('click', () => { history.back(); });
 document.getElementById('change-btn').addEventListener('click', changeTrain);
 window.addEventListener('hashchange', route);
 
