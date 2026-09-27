@@ -81,10 +81,10 @@
     font-weight: 700;
     line-height: 1;
   }
-  .aleatoire-row {
+  .special-row {
     margin-top: 14px;
   }
-  .tile.aleatoire {
+  .tile.special {
     aspect-ratio: auto;
     width: 100%;
     padding: 22px 16px;
@@ -93,21 +93,21 @@
     flex-direction: row;
     gap: 18px;
   }
-  .tile.aleatoire .qmark {
+  .tile.special .icon {
     font-size: 3rem;
     font-weight: 700;
     line-height: 1;
   }
-  .tile.aleatoire .meta {
+  .tile.special .meta {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
-  .tile.aleatoire .label {
+  .tile.special .label {
     font-size: 1.4rem;
     margin-bottom: 4px;
   }
-  .tile.aleatoire .count {
+  .tile.special .count {
     font-size: 1.6rem;
     font-weight: 600;
     color: var(--muted);
@@ -215,7 +215,7 @@
 <section id="home">
   <h1 class="title">Tchoutchou</h1>
   <div class="grid" id="grid"></div>
-  <div class="aleatoire-row" id="aleatoire-row"></div>
+  <div class="special-row" id="special-row"></div>
 </section>
 
 <section id="display" hidden>
@@ -260,14 +260,15 @@ const COUNT_LABELS = {
   jaune: 'jaunes', blanc: 'blancs', noir: 'noirs',
   orange: 'oranges', rose: 'roses', violet: 'violets', gris: 'gris',
 };
+const SPECIAL = 'speciaux';
+
 function countLabel(color, n) {
-  if (color === 'aleatoire') return n > 1 ? 'trains' : 'train';
+  if (color === SPECIAL) return n > 1 ? 'spéciaux' : 'spécial';
   const base = COUNT_LABELS[color] || color + 's';
   return n > 1 ? base : base.replace(/s$/, '');
 }
 
 let manifest = {};
-let unionList = [];
 let currentColor = null;
 let currentTrain = null;
 let scroller = null;
@@ -293,20 +294,16 @@ async function loadManifest() {
       manifest = {};
     }
   }
-  unionList = [];
-  for (const [color, files] of Object.entries(manifest)) {
-    for (const f of files) unionList.push({ color, file: f });
-  }
 }
 
 /* ---------- HOME ---------- */
 function renderHome() {
   const grid = document.getElementById('grid');
-  const aleaRow = document.getElementById('aleatoire-row');
+  const specialRow = document.getElementById('special-row');
   grid.innerHTML = '';
-  aleaRow.innerHTML = '';
+  specialRow.innerHTML = '';
 
-  const colors = Object.keys(manifest).sort();
+  const colors = Object.keys(manifest).filter(c => c !== SPECIAL).sort();
   for (const c of colors) {
     const n = manifest[c].length;
     const btn = document.createElement('button');
@@ -319,13 +316,13 @@ function renderHome() {
     grid.appendChild(btn);
   }
 
-  const total = unionList.length;
-  const alea = document.createElement('button');
-  alea.className = 'tile aleatoire';
-  alea.innerHTML = `<div class="qmark">?</div><div class="meta"><div class="label">aléatoire</div><div class="count">${total} train${total > 1 ? 's' : ''}</div></div>`;
-  alea.disabled = total === 0;
-  alea.addEventListener('click', () => { location.hash = '#/affichage/aleatoire'; });
-  aleaRow.appendChild(alea);
+  const total = (manifest[SPECIAL] || []).length;
+  const special = document.createElement('button');
+  special.className = 'tile special';
+  special.innerHTML = `<div class="icon">★</div><div class="meta"><div class="label">spécial</div><div class="count">${total} train${total > 1 ? 's' : ''}</div></div>`;
+  special.disabled = total === 0;
+  special.addEventListener('click', () => { location.hash = '#/affichage/' + SPECIAL; });
+  specialRow.appendChild(special);
 }
 
 /* ---------- RUBBER-BAND SCROLLER ---------- */
@@ -493,15 +490,9 @@ async function enterDisplay(color) {
     );
   }
 
-  let pool, count;
-  if (color === 'aleatoire') {
-    pool = unionList;
-    count = unionList.length;
-  } else {
-    const files = manifest[color] || [];
-    pool = files.map(f => ({ color, file: f }));
-    count = files.length;
-  }
+  const files = manifest[color] || [];
+  const pool = files.map(f => ({ color, file: f }));
+  const count = files.length;
 
   document.getElementById('count-num').textContent = count;
   document.getElementById('count-label').textContent = countLabel(color, count);
@@ -522,9 +513,7 @@ async function enterDisplay(color) {
 
 function changeTrain() {
   if (!currentColor) return;
-  let pool;
-  if (currentColor === 'aleatoire') pool = unionList;
-  else pool = (manifest[currentColor] || []).map(f => ({ color: currentColor, file: f }));
+  const pool = (manifest[currentColor] || []).map(f => ({ color: currentColor, file: f }));
   if (pool.length <= 1) return;
   let next;
   do {
@@ -547,7 +536,7 @@ function route() {
   const m = hash.match(/^#\/affichage\/([^/]+)$/);
   if (m) {
     const color = decodeURIComponent(m[1]);
-    const valid = color === 'aleatoire' ? unionList.length > 0 : (manifest[color] && manifest[color].length > 0);
+    const valid = manifest[color] && manifest[color].length > 0;
     if (!valid) { location.hash = '#/'; return; }
     enterDisplay(color);
   } else {

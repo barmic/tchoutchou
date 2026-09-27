@@ -11,7 +11,8 @@ sources = [
     'noir/*',
     'rouge/*',
     'blanc/*',
-    'jaune/*'
+    'jaune/*',
+    'speciaux/*'
 ]
 outputs = ["manifest.json", "sw.js"]
 

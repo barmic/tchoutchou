@@ -112,6 +112,12 @@
     "TGVEuroDuplex3UA_firstToSecond_lyria_8C.png",
     "TGVEuroDuplex3UA_secondToFirst_lyria_8C.png"
   ],
+  "speciaux": [
+    "fret.png",
+    "la_poste.png",
+    "tgv_orange.png",
+    "train_jaune.png"
+  ],
   "vert": [
     "2NNGR_blueHDF_3C.png",
     "2NNG_blueHDF_3C.png",
